@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #121212;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.DashboardController">
+<BorderPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #1B0E20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.DashboardController">
    <left>
       <fx:include source="Sidebar.fxml" />
    </left>
    <center>
       <StackPane>
          <children>
-            <Label text="Welcome to the Admin Dashboard!" textFill="WHITE">
+            <Label text="Welcome to the Admin Dashboard!" textFill="#D1C0EC">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>

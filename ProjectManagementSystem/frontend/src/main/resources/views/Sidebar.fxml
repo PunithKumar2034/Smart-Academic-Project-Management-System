@@ -3,57 +3,111 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="250.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="768.0" prefWidth="260.0" styleClass="sidebar" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" spacing="10.0" style="-fx-border-color: #333333; -fx-border-width: 0 0 1 0;">
+      <!-- Logo Branding in Sidebar -->
+      <VBox alignment="CENTER" prefHeight="80.0" prefWidth="260.0" spacing="5.0">
          <children>
-            <Circle fill="#00a8ff" radius="30.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <Label text="John Doe" textFill="WHITE">
+            <Label text="SYNORA" textFill="#D1C0EC">
                <font>
-                  <Font name="System Bold" size="16.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label text="Faculty" textFill="#a0a0a0" />
          </children>
          <padding>
-            <Insets bottom="10.0" top="20.0" />
+            <Insets top="15.0" bottom="5.0" />
          </padding>
       </VBox>
-      <VBox prefHeight="450.0" prefWidth="250.0" spacing="5.0">
+      <!-- Main Action Area -->
+      <VBox prefWidth="260.0" spacing="10.0">
          <children>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="250.0" styleClass="sidebar-button" text="Dashboard" textFill="WHITE">
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="modern-button" text="+ New Project">
                <padding>
-                  <Insets left="30.0" />
+                  <Insets left="20.0" />
                </padding>
-            </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="250.0" styleClass="sidebar-button" text="Subjects" textFill="WHITE">
-               <padding>
-                  <Insets left="30.0" />
-               </padding>
-            </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="250.0" styleClass="sidebar-button" text="Projects" textFill="WHITE">
-               <padding>
-                  <Insets left="30.0" />
-               </padding>
-            </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="250.0" styleClass="sidebar-button" text="Teams" textFill="WHITE">
-               <padding>
-                  <Insets left="30.0" />
-               </padding>
-            </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="250.0" styleClass="sidebar-button" text="Notifications" textFill="WHITE">
-               <padding>
-                  <Insets left="30.0" />
-               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
             </Button>
          </children>
          <padding>
-            <Insets top="10.0" />
+            <Insets bottom="15.0" />
          </padding>
       </VBox>
+
+      <!-- Navigation Links -->
+      <VBox prefWidth="260.0" spacing="5.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Dashboard">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Subjects">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Projects">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Teams">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Notifications">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+
+      <!-- User Profile at the BOTTOM -->
+      <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="260.0" spacing="15.0" styleClass="user-profile-section">
+         <children>
+            <Circle fill="#8D77A8" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <VBox alignment="CENTER_LEFT">
+               <children>
+                  <Label text="Admin User" textFill="#D1C0EC">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="admin@example.com" textFill="#8D77A8">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </HBox>
    </children>
 </VBox>

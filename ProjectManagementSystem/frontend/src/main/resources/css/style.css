@@ -1,38 +1,81 @@
-/* style.css - Modern Dark UI Elements */
+/* style.css - Synora UI */
 
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #1B0E20;
+}
+
+/* Base text inputs matching Synora's style */
 .modern-text-field {
-    -fx-background-color: #1e1e1e;
-    -fx-border-color: #333333;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: #888888;
+    -fx-background-color: #1B0E20; /* Darker than cards for depth */
+    -fx-border-color: #8D77A8; /* Secondary text/accent */
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #D1C0EC; /* Primary Text */
+    -fx-prompt-text-fill: #8D77A8; /* Secondary Text */
+    -fx-padding: 10 15 10 15;
+    -fx-font-size: 14px;
 }
 
 .modern-text-field:focused {
-    -fx-border-color: #00a8ff;
-    -fx-border-width: 2;
+    -fx-border-color: #C4ADDD; /* Hover glow */
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(196, 173, 221, 0.4), 10, 0, 0, 0);
 }
 
+/* The primary action button */
 .modern-button {
-    -fx-background-color: linear-gradient(to right, #00a8ff, #0072ff);
-    -fx-background-radius: 20;
+    -fx-background-color: #8D77A8;
+    -fx-background-radius: 6;
     -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1B0E20; /* Dark text for contrast */
 }
 
 .modern-button:hover {
-    -fx-background-color: linear-gradient(to right, #00c6ff, #0072ff);
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 168, 255, 0.5), 10, 0, 0, 0);
+    -fx-background-color: #C4ADDD;
+    -fx-effect: dropshadow(three-pass-box, rgba(196, 173, 221, 0.6), 15, 0, 0, 0);
 }
 
+.modern-button:disabled {
+    -fx-background-color: #44334A;
+    -fx-text-fill: #8D77A8;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    -fx-background-color: #44334A;
+}
+
+/* Sidebar Buttons */
 .sidebar-button {
     -fx-background-color: transparent;
     -fx-cursor: hand;
     -fx-font-size: 14px;
+    -fx-text-fill: #D1C0EC;
+    -fx-background-radius: 6;
 }
 
 .sidebar-button:hover {
-    -fx-background-color: #2a2a2a;
-    -fx-border-color: #00a8ff;
-    -fx-border-width: 0 0 0 4;
+    -fx-background-color: #1B0E20;
+    -fx-text-fill: #C4ADDD;
+}
+
+/* The bottom user profile section */
+.user-profile-section {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-border-color: #1B0E20;
+    -fx-border-width: 1 0 0 0; /* Top border only */
+}
+
+.user-profile-section:hover {
+    -fx-background-color: #1B0E20;
+}
+
+/* Cards */
+.card {
+    -fx-background-color: #44334A;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
 }

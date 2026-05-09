@@ -24,7 +24,7 @@ public class Main extends Application {
         // Apply custom CSS
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
-        primaryStage.setTitle("Smart Academic Project Management System");
+        primaryStage.setTitle("SYNORA - Project Management System");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

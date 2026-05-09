@@ -4,45 +4,58 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #121212;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.LoginController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1B0E20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.LoginController">
    <children>
-      <Pane prefHeight="600.0" prefWidth="450.0" style="-fx-background-color: linear-gradient(to bottom right, #2b5876, #4e4376);">
+      <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0" spacing="80.0">
          <children>
-            <Label layoutX="60.0" layoutY="250.0" text="Smart Academic" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label layoutX="60.0" layoutY="300.0" text="Project Management System" textFill="#dcdcdc">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
+            <!-- Left Branding Area -->
+            <VBox alignment="CENTER" prefWidth="350.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/logo.jpeg" />
+                     </image>
+                  </ImageView>
+                  <Label text="SYNORA" textFill="#D1C0EC">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label text="Project Management System" textFill="#8D77A8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+
+            <!-- Right Login Area -->
+            <VBox alignment="CENTER" prefWidth="320.0" spacing="20.0" styleClass="card" style="-fx-padding: 40;">
+               <children>
+                  <Label text="Welcome back" textFill="#D1C0EC">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="emailField" prefHeight="45.0" promptText="Email address" styleClass="modern-text-field" />
+                  <PasswordField fx:id="passwordField" prefHeight="45.0" promptText="Password" styleClass="modern-text-field" />
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="320.0" styleClass="modern-button" text="Continue">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="statusLabel" />
+                  <Label text="Forgot password?" textFill="#C4ADDD" underline="true" style="-fx-cursor: hand;" />
+               </children>
+            </VBox>
          </children>
-      </Pane>
-      <VBox alignment="CENTER" layoutX="520.0" layoutY="100.0" prefHeight="400.0" prefWidth="300.0" spacing="20.0">
-         <children>
-            <Label text="Welcome Back" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </Label>
-            <Label text="Login to continue" textFill="#a0a0a0" />
-            <TextField fx:id="emailField" prefHeight="40.0" promptText="Email Address" styleClass="modern-text-field" />
-            <PasswordField fx:id="passwordField" prefHeight="40.0" promptText="Password" styleClass="modern-text-field" />
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="300.0" styleClass="modern-button" text="LOGIN" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Label fx:id="statusLabel" />
-            <Label text="Forgot Password?" textFill="#00a8ff" underline="true" style="-fx-cursor: hand;" />
-         </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>

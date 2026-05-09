@@ -10,23 +10,35 @@ import animatefx.animation.Shake;
 import com.pms.services.AuthService;
 import javafx.application.Platform;
 
+import javafx.scene.control.ComboBox;
+
 public class LoginController {
 
+    @FXML private ComboBox<String> roleSelector;
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private Button loginButton;
     @FXML private Label statusLabel;
 
     @FXML
+    public void initialize() {
+        if (roleSelector != null) {
+            roleSelector.getItems().addAll("Faculty", "Student");
+            roleSelector.getSelectionModel().selectFirst();
+        }
+    }
+
+    @FXML
     private void handleLogin() {
         String email = emailField.getText();
         String password = passwordField.getText();
+        String role = roleSelector != null ? roleSelector.getValue() : "Faculty";
 
-        if (email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty() || role == null) {
             new Shake(loginButton).play();
             if (statusLabel != null) {
                 statusLabel.setTextFill(Color.TOMATO);
-                statusLabel.setText("Please enter email and password.");
+                statusLabel.setText("Please enter email, password, and role.");
             }
             return;
         }
@@ -37,17 +49,16 @@ public class LoginController {
 
         // Run authentication in background thread to avoid freezing UI
         new Thread(() -> {
-            String token = AuthService.login(email, password);
+            boolean success = AuthService.login(email, password, role);
             Platform.runLater(() -> {
                 loginButton.setText("LOGIN");
                 loginButton.setDisable(false);
                 
-                if (token != null) {
+                if (success) {
                     if (statusLabel != null) {
                         statusLabel.setTextFill(Color.LIGHTGREEN);
                         statusLabel.setText("Login Successful!");
                     }
-                    System.out.println("Supabase Auth Token received: " + token.substring(0, 15) + "...");
                     
                     try {
                         javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/views/MainDashboard.fxml"));
@@ -73,7 +84,7 @@ public class LoginController {
                     new Shake(loginButton).play();
                     if (statusLabel != null) {
                         statusLabel.setTextFill(Color.TOMATO);
-                        statusLabel.setText("Invalid credentials. Try again.");
+                        statusLabel.setText("Invalid credentials or role.");
                     }
                 }
             });

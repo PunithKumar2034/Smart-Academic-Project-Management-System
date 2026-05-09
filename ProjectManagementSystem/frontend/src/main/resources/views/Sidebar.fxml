@@ -26,7 +26,7 @@
       <!-- Main Action Area -->
       <VBox prefWidth="260.0" spacing="10.0">
          <children>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="modern-button" text="+ New Project">
+            <Button fx:id="btnNewProject" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="modern-button" text="+ New Project">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -43,7 +43,7 @@
       <!-- Navigation Links -->
       <VBox prefWidth="260.0" spacing="5.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Dashboard">
+            <Button fx:id="btnDashboard" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Dashboard">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -51,7 +51,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Subjects">
+            <Button fx:id="btnSubjects" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Subjects">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -59,7 +59,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Projects">
+            <Button fx:id="btnProjects" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Projects">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -67,7 +67,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Teams">
+            <Button fx:id="btnTeams" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Teams">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -75,7 +75,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Notifications">
+            <Button fx:id="btnNotifications" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Notifications">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -92,12 +92,12 @@
             <Circle fill="#8D77A8" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <VBox alignment="CENTER_LEFT">
                <children>
-                  <Label text="Admin User" textFill="#D1C0EC">
+                  <Label fx:id="userNameLabel" text="Loading..." textFill="#D1C0EC">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label text="admin@example.com" textFill="#8D77A8">
+                  <Label fx:id="userRoleEmailLabel" text="role" textFill="#8D77A8">
                      <font>
                         <Font size="11.0" />
                      </font>

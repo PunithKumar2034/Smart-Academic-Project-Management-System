@@ -12,7 +12,7 @@
    <center>
       <StackPane>
          <children>
-            <Label text="Welcome to the Admin Dashboard!" textFill="#D1C0EC">
+            <Label fx:id="welcomeLabel" text="Welcome to the Admin Dashboard!" textFill="#D1C0EC">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>

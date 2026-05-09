@@ -1,0 +1,11 @@
+/build
+/out
+/.idea
+*.log
+config/auth.json
+config/*.local.json
+frontend/build
+backend/.cache
+target/
+.DS_Store
+*.class

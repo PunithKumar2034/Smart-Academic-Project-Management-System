@@ -1,0 +1,38 @@
+/* style.css - Modern Dark UI Elements */
+
+.modern-text-field {
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #333333;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #888888;
+}
+
+.modern-text-field:focused {
+    -fx-border-color: #00a8ff;
+    -fx-border-width: 2;
+}
+
+.modern-button {
+    -fx-background-color: linear-gradient(to right, #00a8ff, #0072ff);
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+.modern-button:hover {
+    -fx-background-color: linear-gradient(to right, #00c6ff, #0072ff);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 168, 255, 0.5), 10, 0, 0, 0);
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #2a2a2a;
+    -fx-border-color: #00a8ff;
+    -fx-border-width: 0 0 0 4;
+}

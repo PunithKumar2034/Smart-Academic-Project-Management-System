@@ -2,47 +2,76 @@ package com.pms.controllers;
 
 import com.pms.models.UserSession;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 
 public class DashboardController {
 
-    // Sidebar references
-    @FXML private Button btnNewProject;
-    @FXML private Button btnDashboard;
-    @FXML private Button btnSubjects;
-    @FXML private Button btnProjects;
-    @FXML private Button btnTeams;
-    @FXML private Button btnNotifications;
-    @FXML private Label userNameLabel;
-    @FXML private Label userRoleEmailLabel;
+    // Sidebar Controller Injection
+    @FXML private SidebarController sidebarController;
 
     // Main Content
-    @FXML private javafx.scene.layout.StackPane contentArea;
+    @FXML private StackPane contentArea;
     @FXML private Label welcomeLabel;
 
     @FXML
     public void initialize() {
         UserSession session = UserSession.getInstance();
         
-        if (userNameLabel != null) userNameLabel.setText(session.getName());
-        if (userRoleEmailLabel != null) userRoleEmailLabel.setText(session.getEmail() + " | " + capitalize(session.getRole()));
+        // Link the sidebar controller to this dashboard controller for navigation callbacks
+        if (sidebarController != null) {
+            sidebarController.setDashboardController(this);
+            sidebarController.updateProfile();
+        }
 
         if (welcomeLabel != null) {
             welcomeLabel.setText("Welcome to the SYNORA " + capitalize(session.getRole()) + " Dashboard!");
         }
-
-        configureRolePermissions(session.getRole());
-        setupNavigation();
     }
 
-    private void setupNavigation() {
-        if (btnSubjects != null) btnSubjects.setOnAction(e -> loadView("/views/SubjectsView.fxml"));
-        if (btnProjects != null) btnProjects.setOnAction(e -> loadView("/views/ProjectsView.fxml"));
-        if (btnDashboard != null) btnDashboard.setOnAction(e -> {
-            contentArea.getChildren().clear();
-            contentArea.getChildren().add(welcomeLabel);
-        });
+    @FXML
+    public void handleViewDashboard() {
+        if (contentArea != null && welcomeLabel != null) {
+            contentArea.getChildren().setAll(welcomeLabel);
+        }
+    }
+
+    @FXML
+    public void handleViewSubjects() {
+        loadView("/views/SubjectsView.fxml");
+    }
+
+    @FXML
+    public void handleViewProjects() {
+        loadView("/views/ProjectsView.fxml");
+    }
+
+    @FXML
+    public void handleViewTeams() {
+        loadView("/views/ApplicationsView.fxml");
+    }
+
+    @FXML
+    public void handleViewCreateProject() {
+        loadView("/views/CreateProjectView.fxml");
+    }
+
+    @FXML
+    public void handleLogout() {
+        try {
+            UserSession.getInstance().clearSession();
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
+            javafx.scene.Parent loginRoot = loader.load();
+            javafx.scene.Scene scene = contentArea.getScene(); // Use contentArea to get scene
+            scene.setRoot(loginRoot);
+            
+            javafx.stage.Stage stage = (javafx.stage.Stage) scene.getWindow();
+            stage.setWidth(900);
+            stage.setHeight(600);
+            stage.centerOnScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadView(String fxmlPath) {
@@ -50,16 +79,11 @@ public class DashboardController {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource(fxmlPath));
             javafx.scene.Parent view = loader.load();
             contentArea.getChildren().setAll(view);
+            
+            // Add smooth fade-in animation
+            new animatefx.animation.FadeIn(view).setSpeed(1.5).play();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private void configureRolePermissions(String role) {
-        if (role.equalsIgnoreCase("student")) {
-            // Students cannot create projects or manage subjects
-            if (btnNewProject != null) { btnNewProject.setVisible(false); btnNewProject.setManaged(false); }
-            if (btnSubjects != null) { btnSubjects.setVisible(false); btnSubjects.setManaged(false); }
         }
     }
 

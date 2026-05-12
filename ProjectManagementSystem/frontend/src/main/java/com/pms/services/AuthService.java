@@ -15,68 +15,75 @@ public class AuthService {
     private static final HttpClient client = HttpClient.newHttpClient();
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static boolean login(String email, String password, String expectedRole) {
-        try {
-            String url = ConfigService.getSupabaseUrl() + "/auth/v1/token?grant_type=password";
+    public static boolean login(String email, String password, String expectedRole) throws Exception {
+        System.out.println("DEBUG: Attempting login for " + email + " as " + expectedRole);
+        
+        String url = ConfigService.getSupabaseUrl() + "/auth/v1/token?grant_type=password";
+        ObjectNode jsonBody = mapper.createObjectNode();
+        jsonBody.put("email", email);
+        jsonBody.put("password", password);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("apikey", ConfigService.getSupabaseAnonKey())
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println("DEBUG: Auth Response Code: " + response.statusCode());
+
+        if (response.statusCode() == 200) {
+            JsonNode responseNode = mapper.readTree(response.body());
+            String token = responseNode.path("access_token").asText();
+            String userId = responseNode.path("user").path("id").asText();
+            System.out.println("DEBUG: Auth Success. UserID: " + userId);
+
+            // Fetch profile from public.users
+            String profileUrl = ConfigService.getSupabaseUrl() + "/rest/v1/users?id=eq." + userId + "&select=*";
+            System.out.println("DEBUG: Fetching profile from: " + profileUrl);
             
-            ObjectNode jsonBody = mapper.createObjectNode();
-            jsonBody.put("email", email);
-            jsonBody.put("password", password);
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
+            HttpRequest profileReq = HttpRequest.newBuilder()
+                    .uri(URI.create(profileUrl))
                     .header("apikey", ConfigService.getSupabaseAnonKey())
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
+                    .header("Authorization", "Bearer " + token)
+                    .GET()
                     .build();
+                    
+            HttpResponse<String> profileRes = client.send(profileReq, HttpResponse.BodyHandlers.ofString());
+            System.out.println("DEBUG: Profile Response Code: " + profileRes.statusCode());
+            System.out.println("DEBUG: Profile Body: " + profileRes.body());
+            
+            JsonNode profileArray = mapper.readTree(profileRes.body());
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (profileArray.isArray() && profileArray.size() > 0) {
+                JsonNode profile = profileArray.get(0);
+                String actualRole = profile.path("role").asText();
+                String name = profile.path("name").asText();
+                System.out.println("DEBUG: Found Role: " + actualRole + ", Name: " + name);
 
-            if (response.statusCode() == 200) {
-                JsonNode responseNode = mapper.readTree(response.body());
-                String token = responseNode.path("access_token").asText();
-                String userId = responseNode.path("user").path("id").asText();
-
-                // Fetch profile from public.users
-                String profileUrl = ConfigService.getSupabaseUrl() + "/rest/v1/users?id=eq." + userId + "&select=*";
-                HttpRequest profileReq = HttpRequest.newBuilder()
-                        .uri(URI.create(profileUrl))
-                        .header("apikey", ConfigService.getSupabaseAnonKey())
-                        .header("Authorization", "Bearer " + token)
-                        .GET()
-                        .build();
-                HttpResponse<String> profileRes = client.send(profileReq, HttpResponse.BodyHandlers.ofString());
-                JsonNode profileArray = mapper.readTree(profileRes.body());
-
-                if (profileArray.isArray() && profileArray.size() > 0) {
-                    JsonNode profile = profileArray.get(0);
-                    String actualRole = profile.path("role").asText();
-                    String name = profile.path("name").asText();
-
-                    // Role Matching Logic
-                    if (expectedRole.equalsIgnoreCase("Faculty") && !actualRole.equals("faculty") && !actualRole.equals("admin")) {
-                        System.err.println("Role mismatch! Expected Faculty but got " + actualRole);
-                        return false;
-                    }
-                    if (expectedRole.equalsIgnoreCase("Student") && !actualRole.equals("student")) {
-                        System.err.println("Role mismatch! Expected Student but got " + actualRole);
-                        return false;
-                    }
-
-                    com.pms.models.UserSession.getInstance().setSession(token, userId, email, name, actualRole);
-                    return true;
-                } else {
-                    System.err.println("Profile not found in public.users table.");
-                    return false;
+                // Role Matching Logic
+                if (expectedRole.equalsIgnoreCase("Faculty") && !actualRole.equalsIgnoreCase("faculty") && !actualRole.equalsIgnoreCase("admin")) {
+                    throw new Exception("Role mismatch! Registered as " + actualRole);
                 }
+                if (expectedRole.equalsIgnoreCase("Student") && !actualRole.equalsIgnoreCase("student")) {
+                    throw new Exception("Role mismatch! Registered as " + actualRole);
+                }
+
+                com.pms.models.UserSession.getInstance().setSession(token, userId, email, name, actualRole);
+                return true;
             } else {
-                JsonNode errorNode = mapper.readTree(response.body());
-                System.err.println("Login Failed: " + errorNode.path("error_description").asText());
-                return false;
+                System.err.println("DEBUG: Profile array empty or not found.");
+                throw new Exception("Profile not found in users table.");
             }
-        } catch (Exception e) {
-            System.err.println("Login Error Exception: " + e.getMessage());
-            return false;
+        } else {
+            System.err.println("DEBUG: Auth Error Body: " + response.body());
+            JsonNode errorNode = mapper.readTree(response.body());
+            String errorMsg = errorNode.path("error_description").asText();
+            if (errorMsg == null || errorMsg.isEmpty()) errorMsg = errorNode.path("message").asText();
+            if (errorMsg == null || errorMsg.isEmpty()) errorMsg = errorNode.path("error").asText();
+            System.err.println("DEBUG: Auth Error: " + errorMsg);
+            throw new Exception(errorMsg);
         }
     }
 }

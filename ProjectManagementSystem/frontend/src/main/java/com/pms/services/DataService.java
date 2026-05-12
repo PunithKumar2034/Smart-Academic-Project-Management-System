@@ -77,4 +77,45 @@ public class DataService {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.statusCode() == 201 || response.statusCode() == 200;
     }
+
+    // --- APPLICATIONS ---
+
+    public static boolean applyForProject(int projectId) throws Exception {
+        String url = getBaseUrl() + "/project_applications";
+        String body = mapper.createObjectNode()
+                .put("project_id", projectId)
+                .put("student_id", UserSession.getInstance().getId())
+                .put("status", "pending")
+                .toString();
+
+        HttpRequest request = getAuthenticatedRequest(url)
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() == 409) {
+            throw new Exception("You have already applied for this project!");
+        }
+        
+        return response.statusCode() == 201 || response.statusCode() == 200;
+    }
+
+    public static JsonNode fetchApplications() throws Exception {
+        // Fetch applications for projects managed by current faculty
+        String url = getBaseUrl() + "/project_applications?select=*,projects(project_name,faculty_id),users(name,email)&projects.faculty_id=eq." + UserSession.getInstance().getId();
+        HttpRequest request = getAuthenticatedRequest(url).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return mapper.readTree(response.body());
+    }
+
+    public static boolean updateApplicationStatus(int applicationId, String status) throws Exception {
+        String url = getBaseUrl() + "/project_applications?id=eq." + applicationId;
+        String body = mapper.createObjectNode().put("status", status).toString();
+
+        HttpRequest request = getAuthenticatedRequest(url)
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.statusCode() == 204 || response.statusCode() == 200;
+    }
 }

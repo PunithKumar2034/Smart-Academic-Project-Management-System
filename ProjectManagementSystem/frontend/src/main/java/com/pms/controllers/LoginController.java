@@ -49,45 +49,51 @@ public class LoginController {
 
         // Run authentication in background thread to avoid freezing UI
         new Thread(() -> {
-            boolean success = AuthService.login(email, password, role);
-            Platform.runLater(() -> {
-                loginButton.setText("LOGIN");
-                loginButton.setDisable(false);
-                
-                if (success) {
-                    if (statusLabel != null) {
-                        statusLabel.setTextFill(Color.LIGHTGREEN);
-                        statusLabel.setText("Login Successful!");
-                    }
+            try {
+                boolean success = AuthService.login(email, password, role);
+                Platform.runLater(() -> {
+                    loginButton.setText("LOGIN");
+                    loginButton.setDisable(false);
                     
-                    try {
-                        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/views/MainDashboard.fxml"));
-                        javafx.scene.Parent dashboardRoot = loader.load();
-                        javafx.scene.Scene scene = loginButton.getScene();
-                        
-                        // Set the new Dashboard root
-                        scene.setRoot(dashboardRoot);
-                        
-                        // Resize window for the larger dashboard layout
-                        javafx.stage.Stage stage = (javafx.stage.Stage) scene.getWindow();
-                        stage.setWidth(1024);
-                        stage.setHeight(768);
-                        stage.centerOnScreen();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (success) {
                         if (statusLabel != null) {
-                            statusLabel.setTextFill(Color.TOMATO);
-                            statusLabel.setText("Failed to load dashboard.");
+                            statusLabel.setTextFill(Color.LIGHTGREEN);
+                            statusLabel.setText("Login Successful!");
+                        }
+                        
+                        try {
+                            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/views/MainDashboard.fxml"));
+                            javafx.scene.Parent dashboardRoot = loader.load();
+                            javafx.scene.Scene scene = loginButton.getScene();
+                            
+                            // Set the new Dashboard root
+                            scene.setRoot(dashboardRoot);
+                            
+                            // Resize window for the larger dashboard layout
+                            javafx.stage.Stage stage = (javafx.stage.Stage) scene.getWindow();
+                            stage.setWidth(1024);
+                            stage.setHeight(768);
+                            stage.centerOnScreen();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            if (statusLabel != null) {
+                                statusLabel.setTextFill(Color.TOMATO);
+                                statusLabel.setText("Failed to load dashboard.");
+                            }
                         }
                     }
-                } else {
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    loginButton.setText("LOGIN");
+                    loginButton.setDisable(false);
                     new Shake(loginButton).play();
                     if (statusLabel != null) {
                         statusLabel.setTextFill(Color.TOMATO);
-                        statusLabel.setText("Invalid credentials or role.");
+                        statusLabel.setText(e.getMessage());
                     }
-                }
-            });
+                });
+            }
         }).start();
     }
 

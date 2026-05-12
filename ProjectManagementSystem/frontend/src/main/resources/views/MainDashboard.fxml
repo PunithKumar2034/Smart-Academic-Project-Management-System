@@ -7,7 +7,7 @@
 
 <BorderPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #1B0E20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.DashboardController">
    <left>
-      <fx:include source="Sidebar.fxml" />
+      <fx:include fx:id="sidebar" source="Sidebar.fxml" />
    </left>
    <center>
       <StackPane fx:id="contentArea">

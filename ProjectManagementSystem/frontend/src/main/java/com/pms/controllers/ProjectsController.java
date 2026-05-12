@@ -74,9 +74,47 @@ public class ProjectsController {
 
         card.getChildren().addAll(subject, title, desc, footer);
         
+        // Student Application Button
+        if (com.pms.models.UserSession.getInstance().getRole().equalsIgnoreCase("student")) {
+            javafx.scene.control.Button btnApply = new javafx.scene.control.Button("APPLY NOW");
+            btnApply.getStyleClass().add("modern-button");
+            btnApply.setPrefWidth(280);
+            btnApply.setPrefHeight(35);
+            btnApply.setStyle("-fx-font-size: 11px; -fx-background-color: #8D77A8;");
+            
+            btnApply.setOnAction(e -> handleApply(project.path("id").asInt(), btnApply));
+            card.getChildren().add(btnApply);
+        }
+        
         card.setOnMouseEntered(e -> card.setStyle("-fx-border-color: #C4ADDD; -fx-border-width: 1; -fx-border-radius: 10;"));
         card.setOnMouseExited(e -> card.setStyle("-fx-border-color: transparent;"));
 
         return card;
+    }
+
+    private void handleApply(int projectId, javafx.scene.control.Button btn) {
+        btn.setDisable(true);
+        btn.setText("APPLYING...");
+        
+        new Thread(() -> {
+            try {
+                boolean success = DataService.applyForProject(projectId);
+                Platform.runLater(() -> {
+                    if (success) {
+                        btn.setText("APPLIED ✓");
+                        btn.setStyle("-fx-background-color: #4CAF50;");
+                    } else {
+                        btn.setDisable(false);
+                        btn.setText("FAILED");
+                    }
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    btn.setDisable(false);
+                    btn.setText("ALREADY APPLIED");
+                    btn.setStyle("-fx-background-color: #E57373;");
+                });
+            }
+        }).start();
     }
 }

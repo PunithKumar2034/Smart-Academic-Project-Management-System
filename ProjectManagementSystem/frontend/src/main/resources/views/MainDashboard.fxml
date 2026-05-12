@@ -10,7 +10,7 @@
       <fx:include source="Sidebar.fxml" />
    </left>
    <center>
-      <StackPane>
+      <StackPane fx:id="contentArea">
          <children>
             <Label fx:id="welcomeLabel" text="Welcome to the Admin Dashboard!" textFill="#D1C0EC">
                <font>

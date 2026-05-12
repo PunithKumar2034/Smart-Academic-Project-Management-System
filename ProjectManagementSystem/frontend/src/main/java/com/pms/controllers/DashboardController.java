@@ -18,6 +18,7 @@ public class DashboardController {
     @FXML private Label userRoleEmailLabel;
 
     // Main Content
+    @FXML private javafx.scene.layout.StackPane contentArea;
     @FXML private Label welcomeLabel;
 
     @FXML
@@ -32,6 +33,26 @@ public class DashboardController {
         }
 
         configureRolePermissions(session.getRole());
+        setupNavigation();
+    }
+
+    private void setupNavigation() {
+        if (btnSubjects != null) btnSubjects.setOnAction(e -> loadView("/views/SubjectsView.fxml"));
+        if (btnProjects != null) btnProjects.setOnAction(e -> loadView("/views/ProjectsView.fxml"));
+        if (btnDashboard != null) btnDashboard.setOnAction(e -> {
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(welcomeLabel);
+        });
+    }
+
+    private void loadView(String fxmlPath) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource(fxmlPath));
+            javafx.scene.Parent view = loader.load();
+            contentArea.getChildren().setAll(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void configureRolePermissions(String role) {

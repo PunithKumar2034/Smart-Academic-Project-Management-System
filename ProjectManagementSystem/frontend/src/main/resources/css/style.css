@@ -3,6 +3,7 @@
 .root {
     -fx-font-family: "Segoe UI", Arial, sans-serif;
     -fx-background-color: #1B0E20;
+    background-color: #1B0E20; /* Standard property for compatibility */
 }
 
 /* Base text inputs matching Synora's style */

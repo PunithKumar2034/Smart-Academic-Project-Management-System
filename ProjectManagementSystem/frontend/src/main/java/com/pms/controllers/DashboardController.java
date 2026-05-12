@@ -52,6 +52,11 @@ public class DashboardController {
     }
 
     @FXML
+    public void handleViewNotifications() {
+        loadView("/views/NotificationsView.fxml");
+    }
+
+    @FXML
     public void handleViewCreateProject() {
         loadView("/views/CreateProjectView.fxml");
     }

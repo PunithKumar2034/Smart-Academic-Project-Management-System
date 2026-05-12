@@ -9,8 +9,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DataService {
     private static final HttpClient client = HttpClient.newHttpClient();
@@ -101,7 +99,6 @@ public class DataService {
     }
 
     public static JsonNode fetchApplications() throws Exception {
-        // Fetch applications for projects managed by current faculty
         String url = getBaseUrl() + "/project_applications?select=*,projects(project_name,faculty_id),users(name,email)&projects.faculty_id=eq." + UserSession.getInstance().getId();
         HttpRequest request = getAuthenticatedRequest(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -111,6 +108,26 @@ public class DataService {
     public static boolean updateApplicationStatus(int applicationId, String status) throws Exception {
         String url = getBaseUrl() + "/project_applications?id=eq." + applicationId;
         String body = mapper.createObjectNode().put("status", status).toString();
+
+        HttpRequest request = getAuthenticatedRequest(url)
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.statusCode() == 204 || response.statusCode() == 200;
+    }
+
+    // --- NOTIFICATIONS ---
+
+    public static JsonNode fetchNotifications() throws Exception {
+        String url = getBaseUrl() + "/notifications?user_id=eq." + UserSession.getInstance().getId() + "&order=created_at.desc";
+        HttpRequest request = getAuthenticatedRequest(url).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return mapper.readTree(response.body());
+    }
+
+    public static boolean markNotificationAsRead(int notificationId) throws Exception {
+        String url = getBaseUrl() + "/notifications?id=eq." + notificationId;
+        String body = mapper.createObjectNode().put("is_read", true).toString();
 
         HttpRequest request = getAuthenticatedRequest(url)
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(body))

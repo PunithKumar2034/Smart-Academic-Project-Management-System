@@ -75,7 +75,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnNotifications" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Notifications">
+            <Button fx:id="btnNotifications" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleViewNotifications" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Notifications">
                <padding>
                   <Insets left="20.0" />
                </padding>

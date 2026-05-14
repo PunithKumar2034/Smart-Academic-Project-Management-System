@@ -57,6 +57,11 @@ public class DashboardController {
     }
 
     @FXML
+    public void handleViewTasks() {
+        loadView("/views/TasksView.fxml");
+    }
+
+    @FXML
     public void handleViewCreateProject() {
         loadView("/views/CreateProjectView.fxml");
     }

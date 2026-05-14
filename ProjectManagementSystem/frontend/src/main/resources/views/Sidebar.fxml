@@ -83,6 +83,14 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
+            <Button fx:id="btnTasks" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleViewTasks" prefHeight="45.0" prefWidth="240.0" styleClass="sidebar-button" text="Tasks &amp; Deadlines">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
 

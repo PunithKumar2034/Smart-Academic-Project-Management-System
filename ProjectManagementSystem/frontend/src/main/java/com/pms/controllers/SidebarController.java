@@ -35,6 +35,7 @@ public class SidebarController {
     @FXML private void handleViewProjects() { if (dashboardController != null) dashboardController.handleViewProjects(); }
     @FXML private void handleViewTeams() { if (dashboardController != null) dashboardController.handleViewTeams(); }
     @FXML private void handleViewNotifications() { if (dashboardController != null) dashboardController.handleViewNotifications(); }
+    @FXML private void handleViewTasks() { if (dashboardController != null) dashboardController.handleViewTasks(); }
     @FXML private void handleViewCreateProject() { if (dashboardController != null) dashboardController.handleViewCreateProject(); }
     @FXML private void handleLogout() { if (dashboardController != null) dashboardController.handleLogout(); }
 

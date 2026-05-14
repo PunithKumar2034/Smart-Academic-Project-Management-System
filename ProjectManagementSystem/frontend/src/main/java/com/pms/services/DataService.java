@@ -135,4 +135,53 @@ public class DataService {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.statusCode() == 204 || response.statusCode() == 200;
     }
+
+    // --- DEADLINES & SUBMISSIONS ---
+
+    public static boolean createDeadline(int projectId, String title, String dueDate, int reminderDays) throws Exception {
+        String url = getBaseUrl() + "/deadlines";
+        String body = mapper.createObjectNode()
+                .put("project_id", projectId)
+                .put("title", title)
+                .put("due_date", dueDate)
+                .put("reminder_days_before", reminderDays)
+                .toString();
+
+        HttpRequest request = getAuthenticatedRequest(url)
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.statusCode() == 201 || response.statusCode() == 200;
+    }
+
+    public static JsonNode fetchDeadlines(int projectId) throws Exception {
+        String url = getBaseUrl() + "/deadlines?project_id=eq." + projectId + "&order=due_date.asc";
+        HttpRequest request = getAuthenticatedRequest(url).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return mapper.readTree(response.body());
+    }
+    
+    public static JsonNode fetchStudentDeadlines() throws Exception {
+        // Fetch deadlines for projects where the student is in a team
+        String url = getBaseUrl() + "/deadlines?select=*,projects(project_name),submissions(id,submitted_at,grade)&order=due_date.asc";
+        HttpRequest request = getAuthenticatedRequest(url).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return mapper.readTree(response.body());
+    }
+
+    public static boolean submitWork(int deadlineId, int teamId, String content) throws Exception {
+        String url = getBaseUrl() + "/submissions";
+        String body = mapper.createObjectNode()
+                .put("deadline_id", deadlineId)
+                .put("team_id", teamId)
+                .put("student_id", UserSession.getInstance().getId())
+                .put("content", content)
+                .toString();
+
+        HttpRequest request = getAuthenticatedRequest(url)
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.statusCode() == 201 || response.statusCode() == 200;
+    }
 }

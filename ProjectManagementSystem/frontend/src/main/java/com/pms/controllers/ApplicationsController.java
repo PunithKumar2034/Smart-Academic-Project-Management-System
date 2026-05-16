@@ -94,14 +94,20 @@ public class ApplicationsController {
     }
 
     private void handleStatusUpdate(int appId, String status, HBox row) {
+        row.setDisable(true); // Immediate feedback: disable the row
         new Thread(() -> {
             try {
                 boolean success = DataService.updateApplicationStatus(appId, status);
                 if (success) {
-                    Platform.runLater(this::loadApplications);
+                    Platform.runLater(() -> {
+                        loadApplications(); // Refresh list
+                    });
+                } else {
+                    Platform.runLater(() -> row.setDisable(false));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                Platform.runLater(() -> row.setDisable(false));
             }
         }).start();
     }

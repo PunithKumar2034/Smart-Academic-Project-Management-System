@@ -14,6 +14,24 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
+      
+      <VBox fx:id="addSubjectBox" spacing="10.0" styleClass="card" style="-fx-padding: 20;" visible="false" managed="false">
+         <children>
+            <Label text="Add New Subject" textFill="#C4ADDD">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <javafx.scene.layout.HBox spacing="15.0" alignment="CENTER_LEFT">
+               <children>
+                  <javafx.scene.control.TextField fx:id="nameField" prefHeight="40.0" prefWidth="250.0" promptText="Subject Name (e.g. Software Engineering)" styleClass="modern-text-field" />
+                  <javafx.scene.control.TextField fx:id="descField" prefHeight="40.0" prefWidth="400.0" promptText="Brief description..." styleClass="modern-text-field" />
+                  <javafx.scene.control.Button mnemonicParsing="false" onAction="#handleAddSubject" prefHeight="40.0" prefWidth="120.0" styleClass="modern-button" text="ADD SUBJECT" />
+               </children>
+            </javafx.scene.layout.HBox>
+            <Label fx:id="statusLabel" />
+         </children>
+      </VBox>
       <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
          <content>
             <FlowPane fx:id="subjectsContainer" hgap="20.0" prefWrapLength="800.0" style="-fx-background-color: transparent;" vgap="20.0">

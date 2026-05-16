@@ -13,6 +13,7 @@ public class CreateProjectController {
     @FXML private ComboBox<JsonNode> subjectSelector;
     @FXML private TextArea descArea;
     @FXML private Spinner<Integer> teamSizeSpinner;
+    @FXML private DatePicker deadlinePicker;
     @FXML private Button submitButton;
     @FXML private Label statusLabel;
 
@@ -56,6 +57,7 @@ public class CreateProjectController {
         String desc = descArea.getText();
         JsonNode subject = subjectSelector.getValue();
         int teamSize = teamSizeSpinner.getValue();
+        java.time.LocalDate deadline = deadlinePicker.getValue();
 
         if (name.isEmpty() || desc.isEmpty() || subject == null) {
             statusLabel.setTextFill(javafx.scene.paint.Color.TOMATO);
@@ -68,18 +70,31 @@ public class CreateProjectController {
 
         new Thread(() -> {
             try {
-                boolean success = DataService.createProject(name, desc, subject.path("id").asInt(), teamSize);
-                Platform.runLater(() -> {
-                    if (success) {
+                JsonNode createdProject = DataService.createProject(name, desc, subject.path("id").asInt(), teamSize);
+                
+                if (createdProject != null) {
+                    int projectId = createdProject.path("id").asInt();
+                    
+                    // If deadline is selected, create it
+                    if (deadline != null) {
+                        DataService.createDeadline(projectId, "Final Submission", deadline.toString(), 3);
+                    }
+
+                    Platform.runLater(() -> {
                         statusLabel.setTextFill(javafx.scene.paint.Color.LIGHTGREEN);
-                        statusLabel.setText("Project created successfully!");
+                        statusLabel.setText("Project created successfully with deadline!");
                         nameField.clear();
                         descArea.clear();
                         subjectSelector.getSelectionModel().clearSelection();
-                    } else {
+                        deadlinePicker.setValue(null);
+                    });
+                } else {
+                    Platform.runLater(() -> {
                         statusLabel.setTextFill(javafx.scene.paint.Color.TOMATO);
                         statusLabel.setText("Failed to create project.");
-                    }
+                    });
+                }
+                Platform.runLater(() -> {
                     submitButton.setDisable(false);
                     submitButton.setText("SUBMIT PROJECT");
                 });

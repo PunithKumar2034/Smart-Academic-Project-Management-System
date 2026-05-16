@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefWidth="600.0" spacing="20.0" style="-fx-background-color: #1B0E20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.BulkUploadDialogController">
+   <children>
+      <Label text="AI Data Mapping &amp; Validation" textFill="#D1C0EC">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      
+      <VBox fx:id="sheetSelectionBox" spacing="10.0" visible="false" managed="false">
+         <children>
+            <Label text="This Excel file has multiple sheets. Please select one:" textFill="#8D77A8" />
+            <ComboBox fx:id="sheetSelector" prefHeight="40.0" prefWidth="400.0" promptText="Select Sheet" styleClass="modern-text-field" />
+         </children>
+      </VBox>
+
+      <VBox spacing="10.0">
+         <children>
+            <Label text="AI Agent Mapping Suggestions:" textFill="#C4ADDD">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <VBox fx:id="mappingContainer" spacing="5.0" />
+         </children>
+      </VBox>
+
+      <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label text="Validation Report / Gaps Found:" textFill="#E57373">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: #3A2A42;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="validationContainer" spacing="5.0" style="-fx-background-color: transparent;">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+
+      <HBox alignment="CENTER_RIGHT" spacing="15.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleCancel" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: transparent; -fx-border-color: #8D77A8; -fx-text-fill: white;" text="Cancel" />
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirm" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #8D77A8; -fx-text-fill: white; -fx-font-weight: bold;" text="Import Users" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>

@@ -43,6 +43,13 @@
             </Label>
             <Spinner fx:id="teamSizeSpinner" prefHeight="40.0" prefWidth="120.0" />
             
+            <Label text="Submission Deadline (Optional)" textFill="#8D77A8">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <javafx.scene.control.DatePicker fx:id="deadlinePicker" prefHeight="45.0" prefWidth="500.0" promptText="Select final submission date" styleClass="modern-text-field" />
+            
             <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmit" prefHeight="50.0" prefWidth="500.0" styleClass="modern-button" text="SUBMIT PROJECT">
                <VBox.margin>
                   <Insets top="20.0" />

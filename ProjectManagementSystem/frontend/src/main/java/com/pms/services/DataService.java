@@ -59,7 +59,7 @@ public class DataService {
         return mapper.readTree(response.body());
     }
 
-    public static boolean createProject(String name, String description, int subjectId, int maxTeamSize) throws Exception {
+    public static JsonNode createProject(String name, String description, int subjectId, int maxTeamSize) throws Exception {
         String url = getBaseUrl() + "/projects";
         String body = mapper.createObjectNode()
                 .put("project_name", name)
@@ -70,10 +70,15 @@ public class DataService {
                 .toString();
 
         HttpRequest request = getAuthenticatedRequest(url)
+                .header("Prefer", "return=representation")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.statusCode() == 201 || response.statusCode() == 200;
+        
+        if (response.statusCode() == 201 || response.statusCode() == 200) {
+            return mapper.readTree(response.body()).get(0);
+        }
+        return null;
     }
 
     // --- APPLICATIONS ---
@@ -99,7 +104,13 @@ public class DataService {
     }
 
     public static JsonNode fetchApplications() throws Exception {
-        String url = getBaseUrl() + "/project_applications?select=*,projects(project_name,faculty_id),users(name,email)&projects.faculty_id=eq." + UserSession.getInstance().getId();
+        String role = UserSession.getInstance().getRole().toLowerCase();
+        String url = getBaseUrl() + "/project_applications?select=*,projects(project_name,faculty_id),users:student_id(name,email)";
+        
+        if (!role.equals("admin")) {
+            url += "&projects.faculty_id=eq." + UserSession.getInstance().getId();
+        }
+        
         HttpRequest request = getAuthenticatedRequest(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return mapper.readTree(response.body());
@@ -162,7 +173,6 @@ public class DataService {
     }
     
     public static JsonNode fetchStudentDeadlines() throws Exception {
-        // Fetch deadlines for projects where the student is in a team
         String url = getBaseUrl() + "/deadlines?select=*,projects(project_name),submissions(id,submitted_at,grade)&order=due_date.asc";
         HttpRequest request = getAuthenticatedRequest(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -183,5 +193,23 @@ public class DataService {
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.statusCode() == 201 || response.statusCode() == 200;
+    }
+
+    // --- ADMIN USER MANAGEMENT ---
+
+    public static boolean adminCreateUser(String email, String password, String name, String role) throws Exception {
+        String url = ConfigService.getSupabaseUrl() + "/rest/v1/rpc/admin_create_user";
+        String body = mapper.createObjectNode()
+                .put("p_email", email)
+                .put("p_password", password)
+                .put("p_name", name)
+                .put("p_role", role)
+                .toString();
+
+        HttpRequest request = getAuthenticatedRequest(url)
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.statusCode() == 200 || response.statusCode() == 201;
     }
 }

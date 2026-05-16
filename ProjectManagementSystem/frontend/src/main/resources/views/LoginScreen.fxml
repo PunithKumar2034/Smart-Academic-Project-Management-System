@@ -44,10 +44,29 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <javafx.scene.control.ComboBox fx:id="roleSelector" prefHeight="45.0" prefWidth="320.0" promptText="Select Role" styleClass="modern-text-field" />
                   <TextField fx:id="emailField" prefHeight="45.0" promptText="Email address" styleClass="modern-text-field" />
                   <PasswordField fx:id="passwordField" prefHeight="45.0" promptText="Password" styleClass="modern-text-field" />
-                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="320.0" styleClass="modern-button" text="Continue">
+                  
+                  <!-- Horizontal Switch for Role -->
+                  <HBox alignment="CENTER" prefHeight="40.0" spacing="0" style="-fx-background-color: #2D1E32; -fx-background-radius: 20; -fx-padding: 2;">
+                     <children>
+                        <javafx.scene.control.ToggleButton fx:id="toggleFaculty" prefHeight="36.0" prefWidth="150.0" selected="true" styleClass="role-toggle" text="Faculty / Admin">
+                           <toggleGroup>
+                              <javafx.scene.control.ToggleGroup fx:id="roleGroup" />
+                           </toggleGroup>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </javafx.scene.control.ToggleButton>
+                        <javafx.scene.control.ToggleButton fx:id="toggleStudent" prefHeight="36.0" prefWidth="150.0" styleClass="role-toggle" text="Student" toggleGroup="$roleGroup">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </javafx.scene.control.ToggleButton>
+                     </children>
+                  </HBox>
+
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="320.0" styleClass="modern-button" text="LOGIN">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

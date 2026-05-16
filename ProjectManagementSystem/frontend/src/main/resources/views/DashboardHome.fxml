@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="25.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.DashboardHomeController">
+   <children>
+      <VBox spacing="5.0">
+         <children>
+            <Label fx:id="welcomeLabel" text="Welcome back, User!" textFill="#D1C0EC">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Label>
+            <Label text="Here is what's happening in your projects today." textFill="#8D77A8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      
+      <HBox spacing="20.0">
+         <children>
+            <!-- Stats or Quick Info could go here in future -->
+         </children>
+      </HBox>
+      
+      <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label text="Recent Activity" textFill="#C4ADDD">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="activityContainer" spacing="10.0" style="-fx-background-color: transparent;">
+                     <padding>
+                        <Insets bottom="10.0" left="5.0" right="15.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+   </padding>
+</VBox>

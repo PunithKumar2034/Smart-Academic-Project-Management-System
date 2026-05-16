@@ -24,16 +24,13 @@ public class DashboardController {
             sidebarController.updateProfile();
         }
 
-        if (welcomeLabel != null) {
-            welcomeLabel.setText("Welcome to the SYNORA " + capitalize(session.getRole()) + " Dashboard!");
-        }
+        // Load initial home view
+        handleViewDashboard();
     }
 
     @FXML
     public void handleViewDashboard() {
-        if (contentArea != null && welcomeLabel != null) {
-            contentArea.getChildren().setAll(welcomeLabel);
-        }
+        loadView("/views/DashboardHome.fxml");
     }
 
     @FXML
@@ -59,6 +56,11 @@ public class DashboardController {
     @FXML
     public void handleViewTasks() {
         loadView("/views/TasksView.fxml");
+    }
+
+    @FXML
+    public void handleViewUsers() {
+        loadView("/views/UsersView.fxml");
     }
 
     @FXML

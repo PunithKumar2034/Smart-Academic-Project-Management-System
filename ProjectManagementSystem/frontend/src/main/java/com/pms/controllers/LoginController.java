@@ -14,7 +14,8 @@ import javafx.scene.control.ComboBox;
 
 public class LoginController {
 
-    @FXML private ComboBox<String> roleSelector;
+    @FXML private javafx.scene.control.ToggleButton toggleFaculty;
+    @FXML private javafx.scene.control.ToggleButton toggleStudent;
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private Button loginButton;
@@ -22,17 +23,16 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        if (roleSelector != null) {
-            roleSelector.getItems().addAll("Faculty", "Student");
-            roleSelector.getSelectionModel().selectFirst();
-        }
+        // Toggle buttons are initialized in FXML with Faculty selected by default
     }
 
     @FXML
     private void handleLogin() {
         String email = emailField.getText();
         String password = passwordField.getText();
-        String role = roleSelector != null ? roleSelector.getValue() : "Faculty";
+        
+        // Determine role based on which toggle is selected
+        final String role = (toggleStudent != null && toggleStudent.isSelected()) ? "Student" : "Faculty";
 
         if (email.isEmpty() || password.isEmpty() || role == null) {
             new Shake(loginButton).play();

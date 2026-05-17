@@ -80,3 +80,24 @@
     -fx-background-radius: 10;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
 }
+
+/* Horizontal Switch Toggle Buttons */
+.role-toggle {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8D77A8;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.role-toggle:selected {
+    -fx-background-color: #8D77A8;
+    -fx-text-fill: #1B0E20;
+    -fx-font-weight: bold;
+}
+
+.role-toggle:hover:!selected {
+    -fx-background-color: #44334A;
+    -fx-text-fill: #D1C0EC;
+}

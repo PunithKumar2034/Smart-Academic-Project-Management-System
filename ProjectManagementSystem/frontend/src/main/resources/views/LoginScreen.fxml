@@ -17,18 +17,14 @@
 
 <StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0" styleClass="login-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.LoginController">
    <children>
-      <!-- Full background image covering the window -->
-      <ImageView fitHeight="600.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="false">
-         <image>
-            <Image url="@../images/loginWallpaper.jpg" />
-         </image>
-      </ImageView>
+      <!-- Responsive CSS Background for Cover behavior and Parallax -->
+      <StackPane fx:id="backgroundPane" scaleX="1.05" scaleY="1.05" style="-fx-background-image: url('/images/loginWallpaper.jpg'); -fx-background-size: cover; -fx-background-position: center center;" />
       
-      <AnchorPane prefHeight="600.0" prefWidth="900.0">
+      <HBox prefHeight="600.0" prefWidth="900.0">
          <children>
             
-            <!-- Left Side: Frosted Glass Panel (55% width = 495px) -->
-            <VBox fx:id="leftPanel" alignment="CENTER" prefHeight="600.0" prefWidth="495.0" spacing="20.0" styleClass="glass-panel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <!-- Left Side: Frosted Glass Panel (~35% width, responsive constraints applied in Controller) -->
+            <VBox fx:id="leftPanel" alignment="CENTER" minWidth="350.0" maxWidth="500.0" spacing="20.0" styleClass="glass-panel">
                <padding>
                   <Insets bottom="40.0" left="60.0" right="60.0" top="40.0" />
                </padding>
@@ -47,8 +43,8 @@
                         </ImageView>
                         <VBox>
                            <children>
-                              <Label text="SYNORA" styleClass="login-header-large" />
-                              <Label text="Project Management System" styleClass="login-header-small" />
+                              <Label styleClass="login-header-large" text="SYNORA" />
+                              <Label styleClass="login-header-small" text="Project Management System" />
                            </children>
                         </VBox>
                      </children>
@@ -58,10 +54,10 @@
                   </HBox>
                   
                   <!-- Form Header -->
-                  <VBox spacing="5.0" alignment="CENTER_LEFT" prefWidth="375.0">
+                  <VBox alignment="CENTER_LEFT" prefWidth="375.0" spacing="5.0">
                      <children>
-                        <Label text="START FOR FREE" styleClass="login-header-small" />
-                        <Label text="Welcome Back." styleClass="login-header-large" />
+                        <Label styleClass="login-header-small" text="START FOR FREE" />
+                        <Label styleClass="login-header-large" text="Welcome Back." />
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" />
@@ -73,7 +69,7 @@
                   <PasswordField fx:id="passwordField" prefHeight="45.0" prefWidth="375.0" promptText="Password" styleClass="login-input" />
                   
                   <!-- Role Switch -->
-                  <HBox alignment="CENTER" prefHeight="40.0" maxWidth="250.0" spacing="0" styleClass="role-switch-container">
+                  <HBox alignment="CENTER" maxWidth="250.0" prefHeight="40.0" spacing="0" styleClass="role-switch-container">
                      <children>
                         <ToggleButton fx:id="toggleFaculty" prefHeight="36.0" prefWidth="120.0" selected="true" styleClass="role-switch-toggle" text="Faculty">
                            <toggleGroup>
@@ -83,7 +79,7 @@
                         <ToggleButton fx:id="toggleStudent" prefHeight="36.0" prefWidth="120.0" styleClass="role-switch-toggle" text="Student" toggleGroup="$roleGroup" />
                      </children>
                      <VBox.margin>
-                        <Insets top="10.0" bottom="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
                   
@@ -92,12 +88,14 @@
                   
                   <!-- Status and Forgot Password -->
                   <Label fx:id="statusLabel" textFill="#D9534F" wrapText="true" />
-                  <Label text="Forgot password?" style="-fx-text-fill: #A0B4C8; -fx-underline: true; -fx-cursor: hand;" />
+                  <Label style="-fx-text-fill: #A0B4C8; -fx-underline: true; -fx-cursor: hand;" text="Forgot password?" />
                </children>
             </VBox>
             
-
+            <!-- Right Spacer to expose background and push panel left -->
+            <javafx.scene.layout.Region HBox.hgrow="ALWAYS" />
+            
          </children>
-      </AnchorPane>
+      </HBox>
    </children>
 </StackPane>

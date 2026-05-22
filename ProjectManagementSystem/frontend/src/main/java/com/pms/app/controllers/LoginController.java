@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 
 public class LoginController {
     @FXML private javafx.scene.layout.StackPane rootPane;
+    @FXML private javafx.scene.layout.StackPane backgroundPane;
     @FXML private javafx.scene.layout.VBox leftPanel;
     @FXML private javafx.scene.control.ToggleButton toggleFaculty;
     @FXML private javafx.scene.control.ToggleButton toggleStudent;
@@ -38,6 +39,28 @@ public class LoginController {
                 stage.setX(event.getScreenX() - xOffset);
                 stage.setY(event.getScreenY() - yOffset);
             });
+            
+            // Dynamic width binding for left panel (~35% of total width)
+            if (leftPanel != null) {
+                leftPanel.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.35));
+            }
+            
+            // Parallax effect on background
+            if (backgroundPane != null) {
+                rootPane.setOnMouseMoved(event -> {
+                    double maxOffset = 15.0; // max translation pixels
+                    double width = rootPane.getWidth();
+                    double height = rootPane.getHeight();
+                    
+                    if (width > 0 && height > 0) {
+                        double normalizedX = (event.getSceneX() / width) - 0.5;
+                        double normalizedY = (event.getSceneY() / height) - 0.5;
+                        
+                        backgroundPane.setTranslateX(-normalizedX * maxOffset);
+                        backgroundPane.setTranslateY(-normalizedY * maxOffset);
+                    }
+                });
+            }
             
             // Fade-in animation for the root pane
             rootPane.setOpacity(0);

@@ -203,6 +203,14 @@ public class DataService {
         return response.statusCode() == 201 || response.statusCode() == 200;
     }
 
+    public static int fetchTotalStudentsCount() throws Exception {
+        String url = getBaseUrl() + "/users?role=eq.student&select=id";
+        HttpRequest request = getAuthenticatedRequest(url).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        JsonNode users = mapper.readTree(response.body());
+        return users.size();
+    }
+
     // --- ADMIN USER MANAGEMENT ---
 
     public static boolean adminCreateUser(String email, String password, String name, String role) throws Exception {

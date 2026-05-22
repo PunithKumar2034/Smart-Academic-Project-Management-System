@@ -59,7 +59,14 @@ public class DataService {
         return mapper.readTree(response.body());
     }
 
-    public static JsonNode createProject(String name, String description, int subjectId, int maxTeamSize) throws Exception {
+    public static JsonNode fetchTeams() throws Exception {
+        String url = getBaseUrl() + "/teams?select=*,projects(project_name,max_team_size,selection_mode),team_members(student_id,users(name))&order=created_at.desc";
+        HttpRequest request = getAuthenticatedRequest(url).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return mapper.readTree(response.body());
+    }
+
+    public static JsonNode createProject(String name, String description, int subjectId, int maxTeamSize, String selectionMode) throws Exception {
         String url = getBaseUrl() + "/projects";
         String body = mapper.createObjectNode()
                 .put("project_name", name)
@@ -67,6 +74,7 @@ public class DataService {
                 .put("subject_id", subjectId)
                 .put("faculty_id", UserSession.getInstance().getId())
                 .put("max_team_size", maxTeamSize)
+                .put("selection_mode", selectionMode)
                 .toString();
 
         HttpRequest request = getAuthenticatedRequest(url)

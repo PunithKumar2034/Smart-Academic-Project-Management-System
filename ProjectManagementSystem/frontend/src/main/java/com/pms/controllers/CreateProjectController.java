@@ -13,6 +13,7 @@ public class CreateProjectController {
     @FXML private ComboBox<JsonNode> subjectSelector;
     @FXML private TextArea descArea;
     @FXML private Spinner<Integer> teamSizeSpinner;
+    @FXML private ComboBox<String> modeSelector;
     @FXML private DatePicker deadlinePicker;
     @FXML private Button submitButton;
     @FXML private Label statusLabel;
@@ -20,6 +21,8 @@ public class CreateProjectController {
     @FXML
     public void initialize() {
         teamSizeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 4));
+        modeSelector.getItems().addAll("Auto Team Formation", "Student Team Selection");
+        modeSelector.getSelectionModel().selectFirst();
         loadSubjects();
         
         // Setup ComboBox to display subject names
@@ -57,6 +60,8 @@ public class CreateProjectController {
         String desc = descArea.getText();
         JsonNode subject = subjectSelector.getValue();
         int teamSize = teamSizeSpinner.getValue();
+        String modeText = modeSelector.getValue();
+        String selectionMode = (modeText != null && modeText.equals("Auto Team Formation")) ? "auto" : "student";
         java.time.LocalDate deadline = deadlinePicker.getValue();
 
         if (name.isEmpty() || desc.isEmpty() || subject == null) {
@@ -70,7 +75,7 @@ public class CreateProjectController {
 
         new Thread(() -> {
             try {
-                JsonNode createdProject = DataService.createProject(name, desc, subject.path("id").asInt(), teamSize);
+                JsonNode createdProject = DataService.createProject(name, desc, subject.path("id").asInt(), teamSize, selectionMode);
                 
                 if (createdProject != null) {
                     int projectId = createdProject.path("id").asInt();

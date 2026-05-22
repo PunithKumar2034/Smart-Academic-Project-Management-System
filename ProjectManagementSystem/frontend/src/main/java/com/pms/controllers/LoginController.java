@@ -13,7 +13,8 @@ import javafx.application.Platform;
 import javafx.scene.control.ComboBox;
 
 public class LoginController {
-
+    @FXML private javafx.scene.layout.StackPane rootPane;
+    @FXML private javafx.scene.layout.VBox leftPanel;
     @FXML private javafx.scene.control.ToggleButton toggleFaculty;
     @FXML private javafx.scene.control.ToggleButton toggleStudent;
     @FXML private TextField emailField;
@@ -21,9 +22,66 @@ public class LoginController {
     @FXML private Button loginButton;
     @FXML private Label statusLabel;
 
+    private double xOffset = 0;
+    private double yOffset = 0;
+
     @FXML
     public void initialize() {
-        // Toggle buttons are initialized in FXML with Faculty selected by default
+        // Window Drag Logic
+        if (rootPane != null) {
+            rootPane.setOnMousePressed(event -> {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            });
+            rootPane.setOnMouseDragged(event -> {
+                javafx.stage.Stage stage = (javafx.stage.Stage) rootPane.getScene().getWindow();
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            });
+            
+            // Fade-in animation for the root pane
+            rootPane.setOpacity(0);
+            javafx.animation.FadeTransition fadeIn = new javafx.animation.FadeTransition(javafx.util.Duration.millis(600), rootPane);
+            fadeIn.setToValue(1.0);
+            fadeIn.play();
+        }
+
+        // Slide-in animation for left panel elements
+        if (leftPanel != null) {
+            double delay = 0;
+            for (javafx.scene.Node node : leftPanel.getChildren()) {
+                node.setTranslateX(-50);
+                node.setOpacity(0);
+                
+                javafx.animation.TranslateTransition tt = new javafx.animation.TranslateTransition(javafx.util.Duration.millis(400), node);
+                tt.setToX(0);
+                tt.setDelay(javafx.util.Duration.millis(delay));
+                
+                javafx.animation.FadeTransition ft = new javafx.animation.FadeTransition(javafx.util.Duration.millis(400), node);
+                ft.setToValue(1.0);
+                ft.setDelay(javafx.util.Duration.millis(delay));
+                
+                tt.play();
+                ft.play();
+                delay += 50;
+            }
+        }
+
+        // Button hover animation
+        if (loginButton != null) {
+            loginButton.setOnMouseEntered(e -> {
+                javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(150), loginButton);
+                st.setToX(1.03);
+                st.setToY(1.03);
+                st.play();
+            });
+            loginButton.setOnMouseExited(e -> {
+                javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(150), loginButton);
+                st.setToX(1.0);
+                st.setToY(1.0);
+                st.play();
+            });
+        }
     }
 
     @FXML

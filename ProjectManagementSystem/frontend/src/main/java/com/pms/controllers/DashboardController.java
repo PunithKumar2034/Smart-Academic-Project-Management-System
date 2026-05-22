@@ -45,7 +45,12 @@ public class DashboardController {
 
     @FXML
     public void handleViewTeams() {
-        loadView("/views/ApplicationsView.fxml");
+        String role = com.pms.models.UserSession.getInstance().getRole().toLowerCase();
+        if (role.equals("student")) {
+            loadView("/views/StudentTeamsView.fxml");
+        } else {
+            loadView("/views/TeamsView.fxml");
+        }
     }
 
     @FXML

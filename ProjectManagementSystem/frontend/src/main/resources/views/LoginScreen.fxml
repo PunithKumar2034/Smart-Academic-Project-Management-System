@@ -1,81 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.SVGPath?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1B0E20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.LoginController">
+<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0" styleClass="login-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pms.controllers.LoginController">
    <children>
-      <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0" spacing="80.0">
+      <!-- Full background image covering the window -->
+      <ImageView fitHeight="600.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="false">
+         <image>
+            <Image url="@../images/loginWallpaper.jpg" />
+         </image>
+      </ImageView>
+      
+      <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
-            <!-- Left Branding Area -->
-            <VBox alignment="CENTER" prefWidth="350.0" spacing="10.0">
+            
+            <!-- Left Side: Frosted Glass Panel (55% width = 495px) -->
+            <VBox fx:id="leftPanel" alignment="CENTER" prefHeight="600.0" prefWidth="495.0" spacing="20.0" styleClass="glass-panel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <padding>
+                  <Insets bottom="40.0" left="60.0" right="60.0" top="40.0" />
+               </padding>
                <children>
-                  <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/logo.jpeg" />
-                     </image>
-                  </ImageView>
-                  <Label text="SYNORA" textFill="#D1C0EC">
-                     <font>
-                        <Font name="System Bold" size="36.0" />
-                     </font>
-                  </Label>
-                  <Label text="Project Management System" textFill="#8D77A8">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-
-            <!-- Right Login Area -->
-            <VBox alignment="CENTER" prefWidth="320.0" spacing="20.0" styleClass="card" style="-fx-padding: 40;">
-               <children>
-                  <Label text="Welcome back" textFill="#D1C0EC">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="emailField" prefHeight="45.0" promptText="Email address" styleClass="modern-text-field" />
-                  <PasswordField fx:id="passwordField" prefHeight="45.0" promptText="Password" styleClass="modern-text-field" />
-                  
-                  <!-- Horizontal Switch for Role -->
-                  <HBox alignment="CENTER" prefHeight="40.0" spacing="0" style="-fx-background-color: #2D1E32; -fx-background-radius: 20; -fx-padding: 2;">
+                  <!-- Branding -->
+                  <HBox alignment="CENTER_LEFT" spacing="15.0">
                      <children>
-                        <javafx.scene.control.ToggleButton fx:id="toggleFaculty" prefHeight="36.0" prefWidth="150.0" selected="true" styleClass="role-toggle" text="Faculty / Admin">
-                           <toggleGroup>
-                              <javafx.scene.control.ToggleGroup fx:id="roleGroup" />
-                           </toggleGroup>
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </javafx.scene.control.ToggleButton>
-                        <javafx.scene.control.ToggleButton fx:id="toggleStudent" prefHeight="36.0" prefWidth="150.0" styleClass="role-toggle" text="Student" toggleGroup="$roleGroup">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </javafx.scene.control.ToggleButton>
+                        <!-- Circular Geometric Icon representation for Logo -->
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/logo.jpeg" />
+                           </image>
+                           <clip>
+                              <javafx.scene.shape.Circle centerX="25.0" centerY="25.0" radius="25.0" />
+                           </clip>
+                        </ImageView>
+                        <VBox>
+                           <children>
+                              <Label text="SYNORA" styleClass="login-header-large" />
+                              <Label text="Project Management System" styleClass="login-header-small" />
+                           </children>
+                        </VBox>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
                   </HBox>
-
-                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="320.0" styleClass="modern-button" text="LOGIN">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Label fx:id="statusLabel" wrapText="true" textAlignment="CENTER" />
-                  <Label text="Forgot password?" textFill="#C4ADDD" underline="true" style="-fx-cursor: hand;" />
+                  
+                  <!-- Form Header -->
+                  <VBox spacing="5.0" alignment="CENTER_LEFT" prefWidth="375.0">
+                     <children>
+                        <Label text="START FOR FREE" styleClass="login-header-small" />
+                        <Label text="Welcome Back." styleClass="login-header-large" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </VBox>
+                  
+                  <!-- Inputs -->
+                  <TextField fx:id="emailField" prefHeight="45.0" prefWidth="375.0" promptText="Email address" styleClass="login-input" />
+                  <PasswordField fx:id="passwordField" prefHeight="45.0" prefWidth="375.0" promptText="Password" styleClass="login-input" />
+                  
+                  <!-- Role Switch -->
+                  <HBox alignment="CENTER" prefHeight="40.0" maxWidth="250.0" spacing="0" styleClass="role-switch-container">
+                     <children>
+                        <ToggleButton fx:id="toggleFaculty" prefHeight="36.0" prefWidth="120.0" selected="true" styleClass="role-switch-toggle" text="Faculty">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="roleGroup" />
+                           </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toggleStudent" prefHeight="36.0" prefWidth="120.0" styleClass="role-switch-toggle" text="Student" toggleGroup="$roleGroup" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  
+                  <!-- Login Button -->
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="375.0" styleClass="login-button" text="LOGIN" />
+                  
+                  <!-- Status and Forgot Password -->
+                  <Label fx:id="statusLabel" textFill="#D9534F" wrapText="true" />
+                  <Label text="Forgot password?" style="-fx-text-fill: #A0B4C8; -fx-underline: true; -fx-cursor: hand;" />
                </children>
             </VBox>
+            
+
          </children>
-      </HBox>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</StackPane>
